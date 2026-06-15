@@ -1,0 +1,65 @@
+{
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true
+    },
+    {
+      "path": "apex",
+      "default": false
+    },
+    {
+      "path": "lwc-framework",
+      "default": false,
+      "package": "LwcFramework",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "platform-events",
+      "default": false,
+      "package": "PlatformEvents",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "packages/core-domain",
+      "default": false,
+      "package": "CoreDomain",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "packages/integration-layer",
+      "default": false,
+      "package": "IntegrationLayer",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "packages/ui-framework",
+      "default": false,
+      "package": "UiFramework",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "packages/automation-engine",
+      "default": false,
+      "package": "AutomationEngine",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    },
+    {
+      "path": "packages/analytics-module",
+      "default": false,
+      "package": "AnalyticsModule",
+      "versionName": "v0.1",
+      "versionNumber": "0.1.0.NEXT"
+    }
+  ],
+  "name": "salesforce-enterprise-platform",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "60.0"
+}

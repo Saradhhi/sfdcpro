@@ -1,0 +1,8 @@
+<template>
+    <template if:true={hasData}>
+        <lightning-datatable data={records} columns={columns}></lightning-datatable>
+    </template>
+    <template if:false={hasData}>
+        <p>No records available.</p>
+    </template>
+</template>

@@ -1,0 +1,31 @@
+name: Salesforce CI
+
+on:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install project dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run static analysis
+        run: npm run pmd
+
+      - name: Validate deployment (optional)
+        if: env.SF_ORG_ALIAS != ''
+        run: |
+          sf project deploy validate --target-org "$SF_ORG_ALIAS"
+        env:
+          SF_ORG_ALIAS: ${{ secrets.SF_ORG_ALIAS }}

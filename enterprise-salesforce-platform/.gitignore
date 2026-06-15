@@ -1,0 +1,7 @@
+node_modules
+.sfdx
+.sf
+.env
+coverage
+.DS_Store
+*.log

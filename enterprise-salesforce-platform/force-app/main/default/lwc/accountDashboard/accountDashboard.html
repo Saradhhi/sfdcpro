@@ -1,0 +1,12 @@
+<template>
+    <template if:true={accounts}>
+        <lightning-card title="Account Dashboard">
+            <template for:each={accounts} for:item="acc">
+                <p key={acc.Id}>{acc.Name} — {acc.Rating}</p>
+            </template>
+        </lightning-card>
+    </template>
+    <template if:true={error}>
+        <div class="slds-text-color_error">{error.body.message}</div>
+    </template>
+</template>

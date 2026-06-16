@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Alarm Clock" icon-name="utility:clock">
+        <div class="slds-var-m-around_medium slds-text-align_center">
+            <div class="slds-text-heading_large slds-var-m-bottom_medium slds-text-font_bold">
+                {currentTime}
+            </div>
+
+            <div class="slds-grid slds-gutters slds-var-m-bottom_medium">
+                <div class="slds-col">
+                    <lightning-combobox name="hour" label="Hour" value={selectedHour} placeholder="HH" options={hourOptions} onchange={handleTimeChange} disabled={isAlarmSet}></lightning-combobox>
+                </div>
+                <div class="slds-col">
+                    <lightning-combobox name="minute" label="Minute" value={selectedMinute} placeholder="MM" options={minuteOptions} onchange={handleTimeChange} disabled={isAlarmSet}></lightning-combobox>
+                </div>
+                <div class="slds-col">
+                    <lightning-combobox name="period" label="AM/PM" value={selectedPeriod} placeholder="AM/PM" options={periodOptions} onchange={handleTimeChange} disabled={isAlarmSet}></lightning-combobox>
+                </div>
+            </div>
+
+            <div>
+                <template if:false={isAlarmSet}>
+                    <lightning-button variant="brand" label="Set Alarm" onclick={setAlarm} disabled={isInvalidSelection}></lightning-button>
+                </template>
+                <template if:true={isAlarmSet}>
+                    <lightning-button variant="destructive" label="Clear Alarm" onclick={clearAlarm}></lightning-button>
+                </template>
+            </div>
+
+            <template if:true={isAlarmTriggered}>
+                <div class="slds-var-m-top_large slds-p-around_medium slds-box slds-theme_alert-texture slds-theme_error">
+                    <p class="slds-text-heading_medium slds-text-color_inverse">? Wake Up! Alarm Triggered! ?</p>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

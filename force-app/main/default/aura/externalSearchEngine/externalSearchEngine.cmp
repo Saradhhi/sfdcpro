@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="searchQuery" type="String"/>
+    <lightning:input name="searchKey" value="{!v.searchQuery}" label="Search Legacy Ledger Accounts"/>
+</aura:component>

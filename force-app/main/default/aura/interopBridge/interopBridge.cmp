@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <aura:attribute name="downstreamStateToken" type="String"/>
+    <c:bulkEditor recordId="{!v.recordId}"/>
+</aura:component>

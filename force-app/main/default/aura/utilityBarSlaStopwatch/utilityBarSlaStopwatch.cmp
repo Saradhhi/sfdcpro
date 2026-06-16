@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="elapsedSecondsString" type="String" default="0s"/>
+    <div>{!v.elapsedSecondsString}</div>
+</aura:component>

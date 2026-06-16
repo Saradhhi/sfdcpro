@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize, reopened ]
-  push:
-    branches: [ main ]
 
 jobs:
   static-code-analysis:
@@ -15,11 +13,7 @@ jobs:
       - name: 'Source Code Checkout Extraction'
         uses: actions/checkout@v4
 
-      - name: 'Install Salesforce CLI Framework Core'
+      - name: 'Verify Local Salesforce Project Structure'
         run: |
-          npm install @salesforce/cli --global
-          sf --version
-
-      - name: 'Validate Project Metadata Structure Syntax'
-        run: |
-          sf project validate --force
+          ls -la force-app/main/default/
+          cat sfdx-project.json

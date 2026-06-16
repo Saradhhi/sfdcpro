@@ -1,0 +1,58 @@
+<template>
+    <div class="slds-theme_brand slds-p-around_large slds-var-m-bottom_medium slds-text-align_center">
+        <h1 class="slds-text-heading_large slds-text-font_bold slds-m-bottom_x-small">Vijayasaradhi Meka</h1>
+        <p class="slds-text-heading_small slds-text-color_inverse-weak">Salesforce Developer & LWC Architect Portfolio</p>
+    </div>
+
+    <div class="slds-grid slds-wrap slds-gutters">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-var-m-bottom_medium">
+            <lightning-card title="About Me" icon-name="standard:user">
+                <div class="slds-var-p-around_medium">
+                    <p class="slds-var-m-bottom_small">Passionate Salesforce professional specialized in building modern web architectures using Lightning Web Components, Apex integration engines, and next-gen AI capabilities.</p>
+                    <hr class="slds-var-m-vertical_small" />
+                    <p class="slds-text-title_caps slds-text-color_weak slds-var-m-bottom_xx-small">Core Competencies</p>
+                    <div class="slds-var-m-bottom_small">
+                        <lightning-badge label="LWC"></lightning-badge>
+                        <lightning-badge label="Apex Controllers"></lightning-badge>
+                        <lightning-badge label="Prompt Builder"></lightning-badge>
+                        <lightning-badge label="REST Integrations"></lightning-badge>
+                        <lightning-badge label="Git / GitHub"></lightning-badge>
+                    </div>
+                </div>
+            </lightning-card>
+        </div>
+
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_2-of-3">
+            <lightning-card variant="narrow">
+                <div class="slds-var-p-horizontal_medium">
+                    <lightning-tabset variant="scoped">
+                        <lightning-tab label="Overview">
+                            <div class="slds-var-p-around_medium">
+                                <h3 class="slds-text-heading_small slds-var-m-bottom_small">Portfolio Strategy</h3>
+                                <p>This suite represents a full-scale Salesforce Cloud portfolio highlighting modular component designs, state tracking management, data formatting, asynchronous REST integrations, and clean data binding.</p>
+                            </div>
+                        </lightning-tab>
+
+                        <lightning-tab label="Featured Projects">
+                            <div class="slds-var-p-around_medium">
+                                <div class="slds-grid slds-wrap slds-gutters">
+                                    <template for:each={projects} for:item="proj">
+                                        <div key={proj.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-var-m-bottom_small">
+                                            <div class="slds-box slds-theme_shade">
+                                                <div class="slds-grid slds-grid_align-spread slds-var-m-bottom_xx-small">
+                                                    <span class="slds-text-title_bold">{proj.name}</span>
+                                                    <lightning-badge label={proj.tag} variant="brand"></lightning-badge>
+                                                </div>
+                                                <p class="slds-text-body_small slds-text-color_weak">{proj.description}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-tab>
+                    </lightning-tabset>
+                </div>
+            </lightning-card>
+        </div>
+    </div>
+</template>

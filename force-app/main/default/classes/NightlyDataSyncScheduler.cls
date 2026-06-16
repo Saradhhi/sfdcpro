@@ -1,8 +1,5 @@
-public with sharing class NightlyDataSyncScheduler implements System.Schedulable {
-    
+public with sharing class NightlyDataSyncScheduler implements Schedulable {
     public void execute(SchedulableContext sc) {
-        // Instantiate and dispatch asynchronous processing logic layers cleanly
-        CaseSLAMonitoringBatch slaBatchJob = new CaseSLAMonitoringBatch();
-        Database.executeBatch(slaBatchJob, 50);
+        Database.executeBatch(new CaseSLAMonitoringBatch(), 200);
     }
 }

@@ -1,41 +1,10 @@
-@RestResource(urlMapping='/v1/customer360/*')
+@RestResource(urlMapping='/v1/crm/accounts/*')
 global with sharing class ExternalCustomerRestAPI {
-    
-    global class APIResponse {
-        global String success;
-        global String recordId;
-        global String errorMessage;
-    }
-
-    @HttpPost
-    global static APIResponse createCustomerRecordRecord(String companyName, String typeField, String phoneVal) {
-        APIResponse responseWrapper = new APIResponse();
-        
-        if (String.isBlank(companyName)) {
-            responseWrapper.success = 'false';
-            responseWrapper.errorMessage = 'Required missing field property: companyName';
-            return responseWrapper;
-        }
-
-        try {
-            Account targetInsertion = new Account(
-                Name = companyName,
-                Type = typeField,
-                Phone = phoneVal
-            );
-            
-            insert as user targetInsertion;
-            
-            responseWrapper.success = 'true';
-            responseWrapper.recordId = targetInsertion.Id;
-            responseWrapper.errorMessage = '';
-            
-        } catch (Exception ex) {
-            responseWrapper.success = 'false';
-            responseWrapper.errorMessage = ex.getMessage();
-            ExceptionHandler.logException(ex, 'ExternalCustomerRestAPI.createCustomerRecordRecord');
-        }
-
-        return responseWrapper;
+    @HttpGet
+    global static Account getAccountProfileData() {
+        RestRequest req = RestContext.request;
+        String accId = req.requestURI.substring(req.requestURI.lastIndexOf('/') + 1);
+        if (String.isBlank(accId)) { return null; }
+        return [SELECT Id, Name, Industry, Phone FROM Account WHERE Id = :accId WITH USER_MODE LIMIT 1];
     }
 }

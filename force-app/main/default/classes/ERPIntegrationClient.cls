@@ -1,41 +1,20 @@
 public with sharing class ERPIntegrationClient {
-    
-    public class ERPPayloadWrapper {
-        public String accountId;
-        public String companyName;
-        public String statusFlag;
-    }
-
-    @AuraEnabled
-    public static Integer synchronizeCustomerWithERPSystem(Id accountId) {
-        List<Account> targetAccounts = CustomerSelector.getAccountsByIds(new Set<Id>{ accountId });
-        if (targetAccounts.isEmpty()) return 404;
-        
-        Account target = targetAccounts[0];
-
-        // Structural compilation utilizing strong data typing parameters
-        ERPPayloadWrapper payload = new ERPPayloadWrapper();
-        payload.accountId = target.Id;
-        payload.companyName = target.Name;
-        payload.statusFlag = 'ACTIVE';
-
+    public static HttpResponse synchronizeClientRecord(Id accountId, String serializedPayload) {
+        Http httpInstance = new Http();
         HttpRequest request = new HttpRequest();
-        // Utilizing a production-grade secure configuration abstraction tier
-        request.setEndpoint('callout:ERP_System_Endpoint/v1/customers');
+        request.setEndpoint('callout:SecureERPEndpoint/v2/customers/' + accountId);
         request.setMethod('POST');
-        request.setHeader('Content-Type', 'application/json; charset=utf-8');
-        request.setBody(JSON.serialize(payload));
-
-        Http httpProtocol = new Http();
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody(serializedPayload);
+        
+        HttpResponse response;
         try {
-            HttpResponse response = httpProtocol.send(request);
-            if (response.getStatusCode() != 200 && response.getStatusCode() != 201) {
-                System.debug(LoggingLevel.ERROR, 'ERP Server Integration Fault Code: ' + response.getStatusCode());
-            }
-            return response.getStatusCode();
-        } catch (Exception ex) {
-            ExceptionHandler.logException(ex, 'ERPIntegrationClient.synchronizeCustomerWithERPSystem');
-            return 500;
+            response = httpInstance.send(request);
+        } catch (Exception e) {
+            response = new HttpResponse();
+            response.setStatusCode(500);
+            response.setBody('{"status":"error","message":"' + e.getMessage() + '"}');
         }
+        return response;
     }
 }

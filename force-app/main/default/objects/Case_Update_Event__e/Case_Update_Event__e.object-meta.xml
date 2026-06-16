@@ -4,4 +4,5 @@
     <eventType>HighVolume</eventType>
     <label>Case Update Event</label>
     <pluralLabel>Case Update Events</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
 </CustomObject>

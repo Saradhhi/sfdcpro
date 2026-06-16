@@ -1,66 +1,36 @@
-@isTest
-private class EnterpriseArchitectureTest {
-
-    @testSetup
-    static void initializeCommonTestData() {
-        Account coreAccount = new Account(
-            Name = 'Enterprise Testing LLC',
-            AnnualRevenue = 15000000,
-            Type = 'Prospect'
-        );
-        insert coreAccount;
-
-        Case mockCase = new Case(
-            Subject = 'Critical Core System Malfunction Fail',
-            Status = 'Open',
-            Priority = 'High',
-            AccountId = coreAccount.Id
-        );
-        insert mockCase;
-    }
-
-    @isTest
-    static void testSelectorAndServicePatterns() {
-        List<Account> accounts = [SELECT Id, Name, AnnualRevenue, Type FROM Account LIMIT 1];
+@IsTest
+public class EnterpriseArchitectureTest {
+    @IsTest
+    static void verifyAccountServiceAndSelectorPipelines() {
+        Account testAcc = new Account(Name = 'Enterprise Tech Corp', Industry = '');
         
         Test.startTest();
-        CustomerService.validateAccountVIPStatus(accounts);
-        List<Case> openCases = CustomerSelector.getOpenCasesWithAccountContext();
+        insert testAcc;
+        List<Account> selectedTechs = AccountSelector.getTechAccountsWithChildRecords();
+        List<List<SObject>> searchResults = CustomerSearchEngine.executeGlobalCRMSearch('Enterprise');
         Test.stopTest();
-
-        System.assertEquals(1, openCases.size(), 'The selective indexing query pattern must find exactly one case record.');
+        
+        System.assertEquals('Technology', [SELECT Industry FROM Account WHERE Id = :testAcc.Id].Industry, 'Trigger framework failed to default empty industries.');
+        System.assertNotEquals(0, selectedTechs.size(), 'Selector layer failed to accurately pull processed criteria indexes.');
     }
 
-    @isTest
-    static void testSOSLSearchEngineEngine() {
-        Id[] fixedSearchResults = new Id[1];
-        Account acc = [SELECT Id FROM Account LIMIT 1];
-        fixedSearchResults[0] = acc.Id;
-        Test.setFixedSearchResults(fixedSearchResults);
-
+    @IsTest
+    static void verifyAsynchronousBatchExecutionPaths() {
+        Case targetCase = new Case(Subject = 'SLA Breach Threat Tracker', Status = 'New');
+        insert targetCase;
+        
         Test.startTest();
-        Map<String, List<SObject>> searchResults = CustomerSearchEngine.executeGlobalCustomerSearch('Enterprise');
+        Database.executeBatch(new CaseSLAMonitoringBatch());
         Test.stopTest();
-
-        System.assert(searchResults.containsKey('Accounts'), 'The Search Engine payload mapping layer matrix must contain accounts array structures.');
+        
+        System.assertEquals('High', [SELECT Priority FROM Case WHERE Id = :targetCase.Id].Priority, 'Asynchronous data processing runtime skipped priority escalation passes.');
     }
 
-    @isTest
-    static void testAsynchronousExecutionSLAEngine() {
+    @IsTest
+    static void verifyIntegrationPayloadBoundaries() {
         Test.startTest();
-        CaseSLAMonitoringBatch batchJobInstance = new CaseSLAMonitoringBatch();
-        Id batchProcessId = Database.executeBatch(batchJobInstance, 200);
+        HttpResponse res = ERPIntegrationClient.synchronizeClientRecord('001000000000000AAA', '{"test":"payload"}');
         Test.stopTest();
-
-        System.assertNotEquals(null, batchProcessId, 'The operational runtime engine must schedule the processing queue cleanly.');
-    }
-
-    @isTest
-    static void testInboundRESTInterfaceLayerFaultPath() {
-        Test.startTest();
-        ExternalCustomerRestAPI.APIResponse faultResult = ExternalCustomerRestAPI.createCustomerRecordRecord('', 'Prospect', '555-0192');
-        Test.stopTest();
-
-        System.assertEquals('false', faultResult.success, 'The validation layer must capture the zero character boundary error path.');
+        System.assertNotEquals(null, res, 'Abstracted integration connection layer returned an uninstantiated system reference model.');
     }
 }

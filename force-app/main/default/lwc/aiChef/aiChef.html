@@ -1,0 +1,40 @@
+<template>
+    <lightning-card title="AI Chef Recipe Generator" icon-name="custom:custom62">
+        <div class="slds-var-m-around_medium">
+            <p class="slds-var-m-bottom_medium slds-text-color_weak">Powered by Salesforce Prompt Builder, Apex, and LWC</p>
+            
+            <lightning-input 
+                type="text" 
+                label="What ingredients do you have in your fridge?" 
+                value={ingredients} 
+                onchange={handleInputChange} 
+                placeholder="e.g. Eggs, Tomatoes, Spinach, Cheese">
+            </lightning-input>
+
+            <div class="slds-var-m-top_medium">
+                <lightning-button 
+                    variant="brand" 
+                    label="Generate AI Recipe" 
+                    icon-name="utility:einstein"
+                    onclick={handleGenerateRecipe}
+                    is-disabled={isInputEmpty}>
+                </lightning-button>
+            </div>
+
+            <template if:true={isLoading}>
+                <div class="slds-var-m-top_large slds-p-around_large slds-position_relative">
+                    <lightning-spinner alternative-text="Consulting Einstein AI Chef..." size="medium"></lightning-spinner>
+                    <p class="slds-text-align_center slds-text-color_weak slds-var-m-top_large">Einstein is curating your personalized recipe guidelines...</p>
+                </div>
+            </template>
+
+            <template if:true={aiRecipeResponse}>
+                <div class="slds-var-m-top_large slds-p-around_medium slds-box slds-theme_shade" style="border-left: 5px solid #6b5eae;">
+                    <div class="slds-text-longform">
+                        <p style="white-space: pre-wrap;">{aiRecipeResponse}</p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

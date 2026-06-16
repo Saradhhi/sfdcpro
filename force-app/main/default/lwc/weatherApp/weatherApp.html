@@ -1,0 +1,59 @@
+<template>
+    <lightning-card title="Real-Time Weather App" icon-name="utility:send">
+        <div class="slds-var-m-around_medium">
+            <div class="slds-grid slds-gutters slds-grid_vertical-align-end slds-var-m-bottom_large">
+                <div class="slds-col slds-size_2-of-3">
+                    <lightning-input 
+                        type="text" 
+                        label="Enter City Name" 
+                        value={cityName} 
+                        onchange={handleCityChange} 
+                        placeholder="e.g. New York">
+                    </lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-button 
+                        variant="brand" 
+                        label="Get Weather" 
+                        onclick={getWeatherData} 
+                        is-disabled={isSearchDisabled}
+                        class="slds-stretch">
+                    </lightning-button>
+                </div>
+            </div>
+
+            <template if:true={errorMessage}>
+                <div class="slds-p-around_small slds-var-m-bottom_medium slds-box slds-theme_error">
+                    <p class="slds-text-color_inverse">{errorMessage}</p>
+                </div>
+            </template>
+
+            <template if:true={weatherData}>
+                <div class="slds-box slds-theme_shade slds-text-align_center">
+                    <div class="slds-text-heading_medium slds-var-m-bottom_small">
+                        <strong>{weatherData.name}</strong>
+                    </div>
+                    
+                    <div class="slds-var-m-vertical_small">
+                        <lightning-icon icon-name={weatherIcon} size="large" alternative-text="Weather Icon"></lightning-icon>
+                        <h1 class="slds-text-heading_large slds-var-m-top_x-small"><strong>{weatherData.temp}°C</strong></h1>
+                        <p class="slds-text-title_caps slds-text-color_weak">{weatherData.description}</p>
+                    </div>
+
+                    <hr class="slds-var-m-vertical_medium" />
+
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-2 slds-border_right">
+                            <p class="slds-text-title slds-text-color_weak">HUMIDITY</p>
+                            <p class="slds-text-heading_small"><strong>{weatherData.humidity}%</strong></p>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <p class="slds-text-title slds-text-color_weak">WIND SPEED</p>
+                            <p class="slds-text-heading_small"><strong>{weatherData.windSpeed} m/s</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

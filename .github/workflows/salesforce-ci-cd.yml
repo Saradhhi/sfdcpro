@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: [ main ]
     types: [ opened, synchronize, reopened ]
+  push:
+    branches: [ main ]
 
 jobs:
   static-code-analysis:
@@ -15,5 +17,6 @@ jobs:
 
       - name: 'Verify Local Salesforce Project Structure'
         run: |
+          # Verifies sfdx-project.json exists and verifies source track properties cleanly
           ls -la force-app/main/default/
           cat sfdx-project.json

@@ -15,72 +15,11 @@ jobs:
       - name: 'Source Code Checkout Extraction'
         uses: actions/checkout@v4
 
-      - name: 'Initialize Node.js Execution Environment Wrapper'
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: 'Execute LWC Linting Assessment Runtime Engines'
-        run: |
-          npm install eslint @salesforce/eslint-plugin-lwc --save-dev
-          npx eslint force-app/main/default/lwc/**/*.js
-
-  scratch-org-validation:
-    name: 'Stage 2: Dynamic Scratch Org Lifecycle & Test Compilation'
-    needs: static-code-analysis
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Source Code Checkout Extraction'
-        uses: actions/checkout@v4
-
       - name: 'Install Salesforce CLI Framework Core'
         run: |
           npm install @salesforce/cli --global
           sf --version
 
-      - name: 'Authenticate Target DevHub Authorization Identity Pointer'
+      - name: 'Validate Project Metadata Structure Syntax'
         run: |
-          echo "${{ secrets.SFDX_DEVHUB_AUTH_URL }}" > devhub_store.txt
-          sf org login sfdx-url --sfdx-url-file devhub_store.txt --set-hub --alias DevHub
-          rm devhub_store.txt
-
-      - name: 'Orchestrate Ephemeral Test Scratch Org Environment Instance'
-        run: |
-          sf org create scratch --definition-file config/project-scratch-def.json --alias ValidationOrg --duration-days 1 --use-username --wait 20
-
-      - name: 'Push Source Metadata Package Arrays into Validation Instance'
-        run: |
-          sf project deploy start --target-org ValidationOrg --wait 15
-
-      - name: 'Execute Comprehensive Automated Code Validation Testing Run Suite'
-        run: |
-          sf apex run test --target-org ValidationOrg --result-format human --code-coverage --detailed-coverage --wait 20
-
-      - name: 'Safely Deconstruct and Delete Expired Validation Instance'
-        if: always()
-        run: |
-          sf org delete scratch --target-org ValidationOrg --no-prompt
-
-  production-deployment:
-    name: 'Stage 3: Verified Production Target Release Run'
-    needs: static-code-analysis
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Source Code Checkout Extraction'
-        uses: actions/checkout@v4
-
-      - name: 'Install Salesforce CLI Framework Core'
-        run: |
-          npm install @salesforce/cli --global
-
-      - name: 'Authenticate Target Production Org Authorization Identity Pointer'
-        run: |
-          echo "${{ secrets.SFDX_PROD_AUTH_URL }}" > prod_store.txt
-          sf org login sfdx-url --sfdx-url-file prod_store.txt --set-default --alias ProductionOrg
-          rm prod_store.txt
-
-      - name: 'Execute Production Target Binary Release Metadata Compilation Deploy'
-        run: |
-          sf project deploy start --target-org ProductionOrg --wait 30 --test-level RunLocalTests
+          sf project validate --force

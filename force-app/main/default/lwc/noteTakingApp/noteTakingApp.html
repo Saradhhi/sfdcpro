@@ -1,0 +1,64 @@
+<template>
+    <lightning-card title="Sticky Notes Manager" icon-name="standard:note">
+        <div class="slds-var-m-around_medium">
+            <div class="slds-box slds-theme_shade slds-var-m-bottom_large">
+                <lightning-input 
+                    type="text" 
+                    label="Note Title" 
+                    name="noteTitle"
+                    value={noteTitle} 
+                    onchange={handleInputChange} 
+                    placeholder="e.g. Daily Standup Agenda">
+                </lightning-input>
+
+                <lightning-textarea 
+                    label="Note Content" 
+                    name="noteDescription"
+                    value={noteDescription}
+                    onchange={handleInputChange}
+                    placeholder="Type details here...">
+                </lightning-textarea>
+
+                <div class="slds-var-m-top_medium">
+                    <lightning-button 
+                        variant="brand" 
+                        label="Add Note" 
+                        icon-name="utility:add"
+                        onclick={handleAddNote}
+                        is-disabled={isInvalidNote}>
+                    </lightning-button>
+                </div>
+            </div>
+
+            <template if:false={hasNotes}>
+                <div class="slds-text-align_center slds-text-color_weak slds-p-vertical_large">
+                    <lightning-icon icon-name="utility:sentiment_neutral" size="medium" class="slds-var-m-bottom_x-small"></lightning-icon>
+                    <p class="slds-text-heading_small">No active notes. Add your first note above!</p>
+                </div>
+            </template>
+
+            <template if:true={hasNotes}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={notesList} for:item="note">
+                        <div key={note.id} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-var-m-bottom_medium">
+                            <div class="slds-box slds-box_condensed slds-theme_inverse-texture" style="background-color: #fffde7; border-left: 5px solid #fbc02d;">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <h3 class="slds-text-heading_small slds-truncate" style="color: #333;"><strong>{note.title}</strong></h3>
+                                    <lightning-button-icon 
+                                        icon-name="utility:delete" 
+                                        variant="container"
+                                        alternative-text="Delete Note"
+                                        data-id={note.id}
+                                        onclick={handleDeleteNote}>
+                                    </lightning-button-icon>
+                                </div>
+                                <p class="slds-var-m-top_x-small slds-line-clamp" style="color: #555; white-space: pre-wrap;">{note.description}</p>
+                                <p class="slds-text-color_weak slds-var-m-top_small" style="font-size: 0.75rem;">{note.timestamp}</p>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </lightning-card>
+</template>

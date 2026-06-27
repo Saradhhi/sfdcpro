@@ -1,5 +1,0 @@
-target/
-*.log
-.mule/
-*.jar
-mule-artifact.json~

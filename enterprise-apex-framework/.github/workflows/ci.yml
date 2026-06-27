@@ -1,0 +1,14 @@
+name: Salesforce CI
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @salesforce/cli
+      - run: sf org login jwt --client-id ${{ secrets.SF_CLIENT_ID }} --jwt-key-file server.key --username ${{ secrets.SF_USERNAME }}
+      - run: sf apex run test --test-level RunLocalTests --result-format human --wait 10

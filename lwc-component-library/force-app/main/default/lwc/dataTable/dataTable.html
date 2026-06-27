@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="Data Table" icon-name="standard:datatable">
+        <div class="slds-p-around_medium">
+            <lightning-datatable
+                key-field="id"
+                data={data}
+                columns={columns}
+                sorted-by={sortedBy}
+                sorted-direction={sortDirection}
+                onsort={handleSort}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

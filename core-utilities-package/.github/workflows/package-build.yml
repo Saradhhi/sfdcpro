@@ -1,0 +1,13 @@
+name: Package Build & Promote
+on:
+  push:
+    branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g @salesforce/cli
+      - run: sf org login jwt --client-id ${{ secrets.SF_CLIENT_ID }} --jwt-key-file server.key --username ${{ secrets.SF_USERNAME }}
+      - run: sf package version create --package CoreUtilities --installation-key-bypass --wait 20
+      - run: sf package version promote --package CoreUtilities@1.0.0-1 --no-prompt

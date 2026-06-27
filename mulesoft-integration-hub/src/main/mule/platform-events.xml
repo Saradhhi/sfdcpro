@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MuleSoft Flow: Salesforce Platform Event Publisher & Subscriber
+  Author: Vijaya Saradhi Meka
+-->
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+
+  <!-- ── FLOW: Subscribe to Platform Event ────────────────────────────────── -->
+  <flow name="subscribe-order-event-flow">
+    <salesforce:subscribe-channel-listener
+        config-ref="Salesforce_Config"
+        channelName="/event/Order_Created__e"
+        replayOption="EARLIEST">
+    </salesforce:subscribe-channel-listener>
+
+    <ee:transform doc:name="Extract Event Payload">
+      <ee:message><ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  orderId:    payload.payload.Order_Id__c,
+  accountId:  payload.payload.Account_Id__c,
+  amount:     payload.payload.Amount__c,
+  receivedAt: now() as String
+}]]></ee:set-payload></ee:message>
+    </ee:transform>
+
+    <logger level="INFO" message="Order event received: #[payload.orderId]"/>
+  </flow>
+
+  <!-- ── FLOW: Publish Platform Event ─────────────────────────────────────── -->
+  <flow name="publish-order-event-flow">
+    <http:listener config-ref="HTTP_Listener_Config" path="/publish/order" allowedMethods="POST"/>
+    <salesforce:publish-event doc:name="Publish Order_Created__e" config-ref="Salesforce_Config" type="Order_Created__e">
+      <salesforce:message><![CDATA[#[payload]]]></salesforce:message>
+    </salesforce:publish-event>
+  </flow>
+</mule>

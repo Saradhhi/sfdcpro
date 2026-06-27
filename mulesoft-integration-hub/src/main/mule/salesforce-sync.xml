@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  MuleSoft Flow: Salesforce <-> ERP Bi-directional Sync
+  Author: Vijaya Saradhi Meka
+-->
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation">
+
+  <!-- ── FLOW 1: Salesforce Account → ERP Sync ────────────────────────────── -->
+  <flow name="sf-account-to-erp-flow" doc:name="SF Account to ERP">
+    <salesforce:subscribe-topic-listener
+        doc:name="Subscribe to AccountChanges Topic"
+        config-ref="Salesforce_Config"
+        topic="/topic/AccountChanges">
+    </salesforce:subscribe-topic-listener>
+
+    <ee:transform doc:name="Map SF Account to ERP Format">
+      <ee:message><ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  erpAccountId:  payload.sobject.Id,
+  name:          payload.sobject.Name,
+  phone:         payload.sobject.Phone,
+  billingCity:   payload.sobject.BillingCity,
+  industry:      payload.sobject.Industry,
+  revenue:       payload.sobject.AnnualRevenue,
+  syncTimestamp: now() as String
+}]]></ee:set-payload></ee:message>
+    </ee:transform>
+
+    <http:request method="POST" doc:name="POST to ERP"
+        config-ref="ERP_HTTP_Config" path="/api/accounts">
+    </http:request>
+
+    <error-handler>
+      <on-error-continue type="ANY" doc:name="Handle Sync Error">
+        <logger level="ERROR" message="ERP sync failed: #[error.description]" doc:name="Log Error"/>
+      </on-error-continue>
+    </error-handler>
+  </flow>
+
+  <!-- ── FLOW 2: ERP → Salesforce Account Upsert ──────────────────────────── -->
+  <flow name="erp-to-sf-account-flow" doc:name="ERP to SF Account">
+    <http:listener doc:name="Receive ERP Webhook"
+        config-ref="HTTP_Listener_Config" path="/webhook/erp/account" allowedMethods="POST">
+    </http:listener>
+
+    <ee:transform doc:name="Map ERP to Salesforce Account">
+      <ee:message><ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+[{
+  Name:          payload.name,
+  Phone:         payload.phone,
+  BillingCity:   payload.billingCity,
+  Industry:      payload.industry,
+  AnnualRevenue: payload.revenue,
+  ERP_ID__c:     payload.erpAccountId
+}]]]></ee:set-payload></ee:message>
+    </ee:transform>
+
+    <salesforce:upsert doc:name="Upsert Account in Salesforce"
+        config-ref="Salesforce_Config"
+        objectType="Account"
+        externalIdFieldName="ERP_ID__c">
+    </salesforce:upsert>
+
+    <ee:transform doc:name="Build Success Response">
+      <ee:message><ee:set-payload><![CDATA[%dw 2.0
+output application/json
+--- { status: "success", message: "Account synced to Salesforce" }]]></ee:set-payload></ee:message>
+    </ee:transform>
+  </flow>
+</mule>

@@ -1,0 +1,9 @@
+<template>
+    <div class="slds-m-bottom_small">
+        <lightning-input type="search" label="Filter" placeholder="Search..." variant="label-hidden" onchange={handleFilter}></lightning-input>
+    </div>
+    <lightning-datatable key-field={keyField} data={filteredData} columns={columns}
+        sorted-by={sortedBy} sorted-direction={sortedDirection}
+        onsort={handleSort} onrowaction={handleRowAction} show-row-number-column>
+    </lightning-datatable>
+</template>

@@ -38,16 +38,17 @@
 | 6 | [Tech Stack](#-tech-stack) |
 | 7 | [Architecture](#-architecture) |
 | 8 | [Salesforce DX Project](#-salesforce-dx-project) |
-| 9 | [Performance & Governor Limits](#-performance--governor-limits) |
-| 10 | [Security](#-security) |
-| 11 | [Roadmap](#-roadmap) |
-| 12 | [Enterprise Portfolio](#-enterprise-portfolio) |
-| 13 | [GitHub Stats & Activity](#-github-stats--activity) |
-| 14 | [GitHub Trophies](#-github-trophies) |
-| 15 | [Content & Community](#-content--community) |
-| 16 | [Learning Resources](#-learning-resources) |
-| 17 | [FAQ](#-faq) |
-| 18 | [Let's Connect](#-lets-connect) |
+| 9 | [Featured Projects & Packages](#-featured-projects--packages) |
+| 10 | [Performance & Governor Limits](#-performance--governor-limits) |
+| 11 | [Security](#-security) |
+| 12 | [Roadmap](#-roadmap) |
+| 13 | [Enterprise Portfolio](#-enterprise-portfolio) |
+| 14 | [GitHub Stats & Activity](#-github-stats--activity) |
+| 15 | [GitHub Trophies](#-github-trophies) |
+| 16 | [Content & Community](#-content--community) |
+| 17 | [Learning Resources](#-learning-resources) |
+| 18 | [FAQ](#-faq) |
+| 19 | [Let's Connect](#-lets-connect) |
 
 ---
 
@@ -84,6 +85,11 @@ I'm a **Sr. Salesforce Developer / Architect** with deep expertise designing, bu
 > Auto-maintained. Newest entries first. Showing last 20 updates.
 
 ### 2026-06-26
+- ✅ Added Featured Projects & Packages section — 8 private project cards across 4 categories
+- ✅ Added Salesforce Apex / LWC project cards (Enterprise Apex Framework, LWC Component Library)
+- ✅ Added Unlocked Package cards (Core Utilities Package, DevOps Pipeline Package)
+- ✅ Added Agentforce / AI project cards (Autonomous Agent, Salesforce + Claude MCP Integration)
+- ✅ Added Integration / MuleSoft project cards (Enterprise Integration Hub, Platform Events & CDC Framework)
 - ✅ Added Enterprise GitHub README with full documentation portal
 - ✅ Integrated Salesforce DX project configuration guide
 - ✅ Added AI Features section — Agentforce, Einstein, Prompt Engineering
@@ -313,6 +319,193 @@ The `sfdx-project.json` file is your project's configuration backbone. See [Sale
 | 📋 **Audit Trail** | Field History Tracking, Event Monitoring |
 | 🔒 **API Security** | Connected Apps with scoped permissions, IP allowlisting |
 | 🚫 **SOQL Injection** | Parameterized queries, `escapeSingleQuotes()` enforced |
+
+---
+
+## 📦 Featured Projects & Packages
+
+> All repositories are **private**. Descriptions, tech stacks, and highlights are shared here for portfolio purposes.
+
+---
+
+### ⚡ Salesforce Apex / LWC Projects
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🔷 Enterprise Apex Framework
+> Scalable, bulkified Apex architecture using Trigger Handler, Selector, Domain & Service layer patterns.
+
+![Apex](https://img.shields.io/badge/Apex-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![LWC](https://img.shields.io/badge/LWC-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![SOQL](https://img.shields.io/badge/SOQL-00A1E0?style=flat&logo=salesforce&logoColor=white)
+
+**Highlights:**
+- Trigger Handler pattern (one trigger per object)
+- Unit of Work for bulkified DML
+- Governor-limit-safe query selectors
+- 90%+ test coverage across all classes
+
+🔒 Private Repository
+
+</td>
+<td width="50%" valign="top">
+
+#### ⚡ LWC Component Library
+> Reusable Lightning Web Component library built for enterprise Salesforce orgs.
+
+![LWC](https://img.shields.io/badge/LWC-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+
+**Highlights:**
+- Data table with inline edit, sorting & filtering
+- Dynamic form builder with validation
+- Reusable modal, toast & spinner components
+- SLDS-compliant, mobile-responsive
+
+🔒 Private Repository
+
+</td>
+</tr>
+</table>
+
+---
+
+### 📦 Unlocked Packages
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 📦 Core Utilities Unlocked Package
+> Production-ready unlocked package for cross-org Salesforce utility deployment.
+
+![Salesforce CLI](https://img.shields.io/badge/Salesforce%20CLI-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![Unlocked Package](https://img.shields.io/badge/Unlocked%20Package-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/CI%2FCD-2088FF?style=flat&logo=github-actions&logoColor=white)
+
+**Highlights:**
+- Modular package structure with namespace isolation
+- Automated CI/CD via GitHub Actions + Salesforce CLI
+- Scratch org-based development & testing
+- Version-controlled metadata with unlocked packaging
+
+🔒 Private Repository
+
+</td>
+<td width="50%" valign="top">
+
+#### 📦 Salesforce DevOps Package
+> Automated DevOps pipeline package — from scratch org to production via DevOps Center.
+
+![DevOps Center](https://img.shields.io/badge/DevOps%20Center-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat&logo=github-actions&logoColor=white)
+![Salesforce CLI](https://img.shields.io/badge/Salesforce%20CLI-00A1E0?style=flat&logo=salesforce&logoColor=white)
+
+**Highlights:**
+- Full pipeline: dev → QA → UAT → production
+- Automated delta deployments
+- Pre/post deployment validation scripts
+- Rollback support via package versioning
+
+🔒 Private Repository
+
+</td>
+</tr>
+</table>
+
+---
+
+### 🤖 Agentforce / AI Projects
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🤖 Agentforce Autonomous Agent
+> Salesforce-native autonomous AI agent built with Agentforce, Prompt Builder & Einstein AI.
+
+![Agentforce](https://img.shields.io/badge/Agentforce-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![Einstein](https://img.shields.io/badge/Einstein%20AI-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![Prompt Builder](https://img.shields.io/badge/Prompt%20Builder-00A1E0?style=flat&logo=salesforce&logoColor=white)
+
+**Highlights:**
+- Autonomous case resolution with AI-driven next best action
+- Prompt template library via Salesforce Prompt Builder
+- RAG pipeline for grounded, CRM-aware AI responses
+- Einstein Copilot action integrations
+
+🔒 Private Repository
+
+</td>
+<td width="50%" valign="top">
+
+#### 🧠 Salesforce + Claude AI Integration
+> MCP-powered integration connecting Anthropic Claude with Salesforce data for intelligent workflows.
+
+![Anthropic](https://img.shields.io/badge/Anthropic%20Claude-191919?style=flat&logo=anthropic&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP-191919?style=flat&logo=anthropic&logoColor=white)
+![Salesforce](https://img.shields.io/badge/Salesforce-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+
+**Highlights:**
+- Model Context Protocol (MCP) server for Salesforce
+- Claude reads & writes CRM data via natural language
+- RAG with Salesforce Data Cloud as vector source
+- Embeddings for semantic object & field search
+
+🔒 Private Repository
+
+</td>
+</tr>
+</table>
+
+---
+
+### 🔌 Integration / MuleSoft Projects
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🔗 MuleSoft Enterprise Integration Hub
+> Enterprise integration platform connecting Salesforce with ERP, databases, and third-party APIs via MuleSoft.
+
+![MuleSoft](https://img.shields.io/badge/MuleSoft-00A1E0?style=flat&logo=mulesoft&logoColor=white)
+![Salesforce](https://img.shields.io/badge/Salesforce-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![REST API](https://img.shields.io/badge/REST%20API-009688?style=flat&logo=fastapi&logoColor=white)
+
+**Highlights:**
+- Bi-directional Salesforce ↔ ERP sync via MuleSoft flows
+- Real-time event processing with Platform Events
+- OAuth 2.0 + Named Credential secure authentication
+- Error handling, retry logic & dead-letter queue patterns
+
+🔒 Private Repository
+
+</td>
+<td width="50%" valign="top">
+
+#### 📡 Platform Events & CDC Framework
+> Real-time event-driven architecture using Salesforce Platform Events and Change Data Capture.
+
+![Platform Events](https://img.shields.io/badge/Platform%20Events-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![CDC](https://img.shields.io/badge/Change%20Data%20Capture-00A1E0?style=flat&logo=salesforce&logoColor=white)
+![Apex](https://img.shields.io/badge/Apex-00A1E0?style=flat&logo=salesforce&logoColor=white)
+
+**Highlights:**
+- Decoupled event publishing & subscribing architecture
+- CDC listeners for real-time external system sync
+- Replay ID management for guaranteed event delivery
+- High-volume event processing with async Apex
+
+🔒 Private Repository
+
+</td>
+</tr>
+</table>
 
 ---
 
